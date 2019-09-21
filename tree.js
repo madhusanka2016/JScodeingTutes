@@ -142,6 +142,36 @@ class BST {
         }
         this.root = removeNode(this.root, data);
     }
+    findMinH(node = this.root){//min node have less than 2 chils
+        if(node == null){
+            return -1;
+        }
+        let left = this.findMinH(node.left);
+        let right = this.findMinH(node.right);
+        if(left<right){
+            return left +1;
+        }
+        else{
+            return right +1;
+        }
+    }
+
+    findMaxH(node = this.root){ // deepest leaf
+        if(node == null){
+            return -1;
+        }
+        let left = this.findMinH(node.left);
+        let right = this.findMinH(node.right);
+        if(left>right){
+            return left +1;
+        }
+        else{
+            return right +1;
+        }
+    }
+    isBalanced(){ // min hight + 1 =>max hight
+        return (this.findMinH() >= this.findMaxH()-1);
+    }
     
 }
 
@@ -150,6 +180,7 @@ tree.add(3);
 tree.add(2);
 tree.add(10);
 tree.add(5);
+tree.add(1);
 tree.add(13);
 console.log(tree.findmin());
 console.log(tree.findmax());
@@ -161,3 +192,6 @@ console.log(tree.remove(tree.findmin()));
 
 console.log(tree);
 console.log(tree.findmin());
+console.log(tree.findMinH());
+console.log(tree.findMaxH());
+console.log(tree.isBalanced());
