@@ -51,14 +51,14 @@ class BST {
         while(current.left!==null){
             current=current.left;
         }
-        return current;
+        return current.data;
     }
     findmax(){ // go to down of right most
         let current = this.root;// go to the root of the tree
         while(current.right!==null){
             current=current.right;
         }
-        return current;
+        return current.data;
     }
     find(data){ // 
         let current = this.root;// go to the root of the tree
@@ -76,7 +76,7 @@ class BST {
 
                 // check for go left
         }
-      return current;
+      return current.data;
     }
     isPresent(data){ // 
         let current = this.root;// go to the root of the tree
@@ -101,6 +101,47 @@ class BST {
         }
      
     }
+
+    remove(data){// this function recurisvely call the same function to delete and replace the node tree
+        const removeNode = function(node,data){
+            if(node==null){
+                return null; /// if there is nod node, return nulll
+            }
+            if(data == node.data){
+                // if there is no children , the node addign as null fo the node
+                if(node.left == null && node.right == null){
+                    return null;
+                }
+                // if only right child , node is replaces as right node
+                if(node.left == null){
+                    return node.right;
+                }
+                //if only left node , the node will be replace as left node
+                if(node.right == null){
+                    return node.left;
+                }
+                // if the mode has 2child , the suitable child should be replace for the node
+                var tempNode = node.right // reoplace the node with left node of the immediate child right node
+                while(tempNode.left !==null){
+                    return tempNode.left;
+                }
+                node.data = tempNode.data;
+                node.right = removeNode(node.right, tempNode.data);
+                return node;
+
+            }
+            else if (data< node.data) {
+                node.left = removeNode(node.left,data);
+                return node;
+            }
+            else{
+                node.right = removeNode(node.right, data);
+                return node;
+            }
+
+        }
+        this.root = removeNode(this.root, data);
+    }
     
 }
 
@@ -115,7 +156,8 @@ console.log(tree.findmax());
 console.log(tree.find(2));
 console.log(tree.find(1));
 console.log(tree.isPresent(1));
-
+console.log(tree.remove(tree.findmin()));
 
 
 console.log(tree);
+console.log(tree.findmin());
